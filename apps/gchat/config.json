@@ -1,0 +1,14 @@
+{
+    "id": "google-chat",
+    "name": "Google Chat",
+    "url": "https://chat.google.com/",
+    "requestBlock": false,
+    "keepActive": true,
+    "extensions": [],
+    "permissions": {
+        "notifications": true,
+        "camera": true,
+        "microphone": true,
+        "geolocation": false
+    }
+}

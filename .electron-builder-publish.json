@@ -1,0 +1,39 @@
+{
+  "appId": "io.nestapp.template",
+  "productName": "NestApp",
+  "extraMetadata": {
+    "main": "main.oci.js",
+    "name": "nestapp-template"
+  },
+  "files": [
+    "main.oci.js",
+    "modules/**/*",
+    "shared/**/*",
+    "src/**/*",
+    "locales/**/*",
+    "package.json",
+    "!apps/**",
+    "!specs/**",
+    "!docs/**",
+    "!scripts/**",
+    "!templates/**",
+    "!dist/**",
+    "!.electron-builder*",
+    "!CLAUDE.md",
+    "!README.md",
+    "!create-project.py",
+    "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}"
+  ],
+  "directories": {
+    "output": "dist"
+  },
+  "linux": {
+    "target": "dir"
+  },
+  "win": {
+    "target": "dir"
+  },
+  "mac": {
+    "target": "dir"
+  }
+}

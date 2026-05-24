@@ -1,0 +1,8 @@
+{
+    "id": "com.example.{{APP_NAME}}",
+    "name": "{{APP_NAME}}",
+    "url": "{{APP_URL}}",
+    "requestBlock": false,
+    "keepActive": true,
+    "extensions": []
+}

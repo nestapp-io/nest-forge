@@ -1,0 +1,143 @@
+{
+  "language": {
+    "name": "Portugues (Brasil)"
+  },
+  "menu": {
+    "file": {
+      "title": "Arquivo",
+      "reload": "Recarregar",
+      "forceReload": "Forcar recarregar",
+      "quit": "Sair"
+    },
+    "settings": {
+      "title": "Configuracoes",
+      "open": "Abrir configuracoes..."
+    },
+    "notifications": {
+      "title": "Notificacoes",
+      "titleWithCount": "Notificacoes ({count})",
+      "empty": "Nenhuma notificacao",
+      "openAll": "Abrir todas as notificacoes ({count})",
+      "clearRead": "Limpar lidas",
+      "clearAll": "Limpar todas",
+      "open": "Abrir",
+      "pin": "Fixar",
+      "unpin": "Desafixar",
+      "delete": "Apagar",
+      "noBody": "(sem conteudo)"
+    },
+    "help": {
+      "title": "Ajuda",
+      "docs": "Documentacao",
+      "report": "Reportar problema",
+      "about": "Sobre o {appName}"
+    }
+  },
+  "settings": {
+    "title": "Configuracoes",
+    "tabs": {
+      "general": "Geral",
+      "performance": "Desempenho",
+      "logs": "Logs",
+      "proxy": "Proxy",
+      "notifications": "Notificacoes"
+    },
+    "general": {
+      "sectionTitle": "Geral",
+      "language": "Idioma",
+      "languageHelp": "A mudanca aplica imediatamente em todos os menus e janelas."
+    },
+    "proxy": {
+      "sectionTitle": "Configuracao de Proxy",
+      "type": "Tipo",
+      "system": "Sistema",
+      "custom": "Personalizado",
+      "none": "Sem proxy",
+      "host": "Host",
+      "hostPlaceholder": "ex: proxy.empresa.com",
+      "port": "Porta",
+      "portPlaceholder": "8080"
+    },
+    "notifications": {
+      "sectionTitle": "Configuracao de Notificacoes",
+      "enabled": "Notificacoes ativadas",
+      "enabledDesc": "Exibir notificacoes no menu e na janela",
+      "maxQuickMenu": "Quantidade no menu rapido",
+      "maxStored": "Maximo de notificacoes armazenadas"
+    },
+    "performance": {
+      "sectionTitle": "Desempenho",
+      "keepActive": "Manter ativo em segundo plano",
+      "keepActiveDesc": "Impede que o sistema suspenda timers quando a janela esta minimizada (aumenta o uso de CPU)",
+      "keepActiveInterval": "Intervalo de atividade (segundos)",
+      "keepActiveIntervalHelp": "Entre 60 e 1800 segundos. Define de quanto em quanto tempo um sinal sintetico e disparado."
+    },
+    "logs": {
+      "sectionTitle": "Logs da aplicacao",
+      "enabled": "Habilitar logs",
+      "enabledDesc": "Quando desabilitado, nenhum arquivo de log e criado",
+      "level": "Nivel de log",
+      "levelError": "Erro",
+      "levelWarn": "Aviso",
+      "levelInfo": "Info",
+      "levelDebug": "Debug",
+      "maxFileSizeMB": "Tamanho maximo por arquivo (MB)",
+      "maxFileSizeHelp": "Entre 1 e 50 MB. Quando atingido, o arquivo e rotacionado.",
+      "maxFiles": "Maximo de arquivos retidos",
+      "maxFilesHelp": "Entre 1 e 20. Arquivos mais antigos sao removidos na rotacao.",
+      "scopesTitle": "Escopos",
+      "scopeGeneral": "Geral",
+      "scopeGeneralDesc": "Logs padrao da aplicacao",
+      "scopeKeepActive": "Manter ativo",
+      "scopeKeepActiveDesc": "Logs do recurso de manter ativo em segundo plano",
+      "scopeNotifications": "Notificacoes",
+      "scopeNotificationsDesc": "Logs de recebimento e click em notificacoes",
+      "directory": "Pasta de logs",
+      "openDirectory": "Abrir pasta",
+      "clearNow": "Limpar logs agora",
+      "clearConfirm": "Apagar todos os arquivos de log?"
+    },
+    "actions": {
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "saved": "Salvo"
+    }
+  },
+  "notifications": {
+    "title": "Notificacoes",
+    "empty": "Nenhuma notificacao",
+    "selectAll": "Selecionar tudo",
+    "deselectAll": "Desmarcar",
+    "deleteSelected": "Apagar selecionadas",
+    "clearRead": "Limpar lidas",
+    "clearAll": "Limpar todas",
+    "unreadCount": "{count} nao lida(s)",
+    "totalCount": "{count} total",
+    "pin": "Fixar",
+    "pinned": "Fixada",
+    "delete": "Apagar"
+  },
+  "about": {
+    "title": "Sobre",
+    "version": "versao {version}",
+    "packagedBy": "Empacotado pelo {nestApp} {version}",
+    "platform": "Plataforma",
+    "author": "Autor",
+    "license": "Licenca",
+    "copyInfo": "Copiar info",
+    "copied": "Copiado!",
+    "close": "Fechar"
+  },
+  "spellcheck": {
+    "suggestions": "Sugestoes:",
+    "noSuggestions": "Sem sugestoes",
+    "addToDictionary": "Adicionar ao dicionario",
+    "removeFromDictionary": "Remover do dicionario"
+  },
+  "tray": {
+    "toggle": "Mostrar/Esconder",
+    "quit": "Sair",
+    "visible": "Visivel",
+    "hidden": "Oculto"
+  }
+}

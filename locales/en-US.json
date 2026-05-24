@@ -1,0 +1,143 @@
+{
+  "language": {
+    "name": "English (US)"
+  },
+  "menu": {
+    "file": {
+      "title": "File",
+      "reload": "Reload",
+      "forceReload": "Force reload",
+      "quit": "Quit"
+    },
+    "settings": {
+      "title": "Settings",
+      "open": "Open settings..."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "titleWithCount": "Notifications ({count})",
+      "empty": "No notifications",
+      "openAll": "Open all notifications ({count})",
+      "clearRead": "Clear read",
+      "clearAll": "Clear all",
+      "open": "Open",
+      "pin": "Pin",
+      "unpin": "Unpin",
+      "delete": "Delete",
+      "noBody": "(no content)"
+    },
+    "help": {
+      "title": "Help",
+      "docs": "Documentation",
+      "report": "Report a problem",
+      "about": "About {appName}"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "general": "General",
+      "performance": "Performance",
+      "logs": "Logs",
+      "proxy": "Proxy",
+      "notifications": "Notifications"
+    },
+    "general": {
+      "sectionTitle": "General",
+      "language": "Language",
+      "languageHelp": "Changes apply immediately to all menus and windows."
+    },
+    "proxy": {
+      "sectionTitle": "Proxy configuration",
+      "type": "Type",
+      "system": "System",
+      "custom": "Custom",
+      "none": "No proxy",
+      "host": "Host",
+      "hostPlaceholder": "e.g., proxy.company.com",
+      "port": "Port",
+      "portPlaceholder": "8080"
+    },
+    "notifications": {
+      "sectionTitle": "Notifications configuration",
+      "enabled": "Notifications enabled",
+      "enabledDesc": "Show notifications in menu and window",
+      "maxQuickMenu": "Quick menu amount",
+      "maxStored": "Maximum stored notifications"
+    },
+    "performance": {
+      "sectionTitle": "Performance",
+      "keepActive": "Keep active in background",
+      "keepActiveDesc": "Prevents the system from suspending timers while the window is minimized (increases CPU usage)",
+      "keepActiveInterval": "Activity interval (seconds)",
+      "keepActiveIntervalHelp": "Between 60 and 1800 seconds. Defines how often a synthetic signal is fired."
+    },
+    "logs": {
+      "sectionTitle": "Application logs",
+      "enabled": "Enable logs",
+      "enabledDesc": "When disabled, no log file is created",
+      "level": "Log level",
+      "levelError": "Error",
+      "levelWarn": "Warning",
+      "levelInfo": "Info",
+      "levelDebug": "Debug",
+      "maxFileSizeMB": "Maximum file size (MB)",
+      "maxFileSizeHelp": "Between 1 and 50 MB. When reached, the file is rotated.",
+      "maxFiles": "Maximum retained files",
+      "maxFilesHelp": "Between 1 and 20. Older files are removed during rotation.",
+      "scopesTitle": "Scopes",
+      "scopeGeneral": "General",
+      "scopeGeneralDesc": "Default application logs",
+      "scopeKeepActive": "Keep active",
+      "scopeKeepActiveDesc": "Logs from the background keep-active feature",
+      "scopeNotifications": "Notifications",
+      "scopeNotificationsDesc": "Logs for receiving and clicking notifications",
+      "directory": "Logs folder",
+      "openDirectory": "Open folder",
+      "clearNow": "Clear logs now",
+      "clearConfirm": "Delete all log files?"
+    },
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "saved": "Saved"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect",
+    "deleteSelected": "Delete selected",
+    "clearRead": "Clear read",
+    "clearAll": "Clear all",
+    "unreadCount": "{count} unread",
+    "totalCount": "{count} total",
+    "pin": "Pin",
+    "pinned": "Pinned",
+    "delete": "Delete"
+  },
+  "about": {
+    "title": "About",
+    "version": "version {version}",
+    "packagedBy": "Packaged by {nestApp} {version}",
+    "platform": "Platform",
+    "author": "Author",
+    "license": "License",
+    "copyInfo": "Copy info",
+    "copied": "Copied!",
+    "close": "Close"
+  },
+  "spellcheck": {
+    "suggestions": "Suggestions:",
+    "noSuggestions": "No suggestions",
+    "addToDictionary": "Add to dictionary",
+    "removeFromDictionary": "Remove from dictionary"
+  },
+  "tray": {
+    "toggle": "Show/Hide",
+    "quit": "Quit",
+    "visible": "Visible",
+    "hidden": "Hidden"
+  }
+}

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="settings.title">Configuracoes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1e1e2e;
+            color: #cdd6f4;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .tabs {
+            display: flex;
+            background: #181825;
+            border-bottom: 1px solid #313244;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: #6c7086;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab:hover {
+            color: #cdd6f4;
+            background: #1e1e2e;
+        }
+
+        .tab.active {
+            color: #89b4fa;
+            border-bottom-color: #89b4fa;
+            background: #1e1e2e;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 24px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #cdd6f4;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #a6adc8;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            background: #313244;
+            border: 1px solid #45475a;
+            border-radius: 6px;
+            color: #cdd6f4;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #89b4fa;
+        }
+
+        .form-help {
+            font-size: 12px;
+            color: #6c7086;
+            margin-top: -8px;
+            margin-bottom: 16px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #313244;
+        }
+
+        .toggle-group:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+        }
+
+        .toggle-desc {
+            font-size: 12px;
+            color: #6c7086;
+            margin-top: 2px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #45475a;
+            border-radius: 24px;
+            transition: 0.2s;
+        }
+
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: #cdd6f4;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        .toggle input:checked + .toggle-slider {
+            background: #89b4fa;
+        }
+
+        .toggle input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid #313244;
+            background: #181825;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .btn-primary {
+            background: #89b4fa;
+            color: #1e1e2e;
+        }
+
+        .btn-secondary {
+            background: #45475a;
+            color: #cdd6f4;
+        }
+
+        .status-msg {
+            font-size: 13px;
+            color: #a6e3a1;
+            align-self: center;
+            display: none;
+        }
+
+        .content-area {
+            padding-bottom: 64px;
+        }
+    </style>
+</head>
+<body>
+    <div class="tabs">
+        <button class="tab active" data-tab="general" data-i18n="settings.tabs.general">Geral</button>
+        <button class="tab" data-tab="performance" data-i18n="settings.tabs.performance">Desempenho</button>
+        <button class="tab" data-tab="logs" data-i18n="settings.tabs.logs">Logs</button>
+        <button class="tab" data-tab="proxy" data-i18n="settings.tabs.proxy">Proxy</button>
+        <button class="tab" data-tab="notifications" data-i18n="settings.tabs.notifications">Notificacoes</button>
+    </div>
+
+    <div class="content-area">
+        <div class="tab-content active" id="tab-general">
+            <h3 class="section-title" data-i18n="settings.general.sectionTitle">Geral</h3>
+            <div class="form-group">
+                <label for="language-select" data-i18n="settings.general.language">Idioma</label>
+                <select id="language-select"></select>
+            </div>
+            <div class="form-help" data-i18n="settings.general.languageHelp">A mudanca aplica imediatamente.</div>
+        </div>
+
+        <div class="tab-content" id="tab-performance">
+            <h3 class="section-title" data-i18n="settings.performance.sectionTitle">Desempenho</h3>
+            <div class="toggle-group">
+                <div>
+                    <div class="toggle-label" data-i18n="settings.performance.keepActive">Manter ativo em segundo plano</div>
+                    <div class="toggle-desc" data-i18n="settings.performance.keepActiveDesc">Evita suspensao de timers quando minimizado</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="keep-active">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+                <label for="keep-active-interval" data-i18n="settings.performance.keepActiveInterval">Intervalo (segundos)</label>
+                <input type="number" id="keep-active-interval" min="60" max="1800" value="240">
+            </div>
+            <div class="form-help" data-i18n="settings.performance.keepActiveIntervalHelp">Entre 60 e 1800 segundos.</div>
+        </div>
+
+        <div class="tab-content" id="tab-logs">
+            <h3 class="section-title" data-i18n="settings.logs.sectionTitle">Logs da aplicacao</h3>
+            <div class="toggle-group">
+                <div>
+                    <div class="toggle-label" data-i18n="settings.logs.enabled">Habilitar logs</div>
+                    <div class="toggle-desc" data-i18n="settings.logs.enabledDesc">Quando desabilitado, nenhum arquivo e criado</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="logs-enabled">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+                <label for="logs-level" data-i18n="settings.logs.level">Nivel de log</label>
+                <select id="logs-level">
+                    <option value="error" data-i18n="settings.logs.levelError">Erro</option>
+                    <option value="warn" data-i18n="settings.logs.levelWarn">Aviso</option>
+                    <option value="info" data-i18n="settings.logs.levelInfo">Info</option>
+                    <option value="debug" data-i18n="settings.logs.levelDebug">Debug</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="logs-max-size" data-i18n="settings.logs.maxFileSizeMB">Tamanho maximo (MB)</label>
+                    <input type="number" id="logs-max-size" min="1" max="50" value="5">
+                    <div class="form-help" data-i18n="settings.logs.maxFileSizeHelp">Entre 1 e 50 MB.</div>
+                </div>
+                <div class="form-group">
+                    <label for="logs-max-files" data-i18n="settings.logs.maxFiles">Arquivos retidos</label>
+                    <input type="number" id="logs-max-files" min="1" max="20" value="5">
+                    <div class="form-help" data-i18n="settings.logs.maxFilesHelp">Entre 1 e 20.</div>
+                </div>
+            </div>
+            <h3 class="section-title" style="margin-top: 16px;" data-i18n="settings.logs.scopesTitle">Escopos</h3>
+            <div class="toggle-group">
+                <div>
+                    <div class="toggle-label" data-i18n="settings.logs.scopeGeneral">Geral</div>
+                    <div class="toggle-desc" data-i18n="settings.logs.scopeGeneralDesc">Logs padrao da aplicacao</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="logs-scope-general">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="toggle-group">
+                <div>
+                    <div class="toggle-label" data-i18n="settings.logs.scopeKeepActive">Manter ativo</div>
+                    <div class="toggle-desc" data-i18n="settings.logs.scopeKeepActiveDesc">Logs de manter ativo</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="logs-scope-keep-active">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="toggle-group">
+                <div>
+                    <div class="toggle-label" data-i18n="settings.logs.scopeNotifications">Notificacoes</div>
+                    <div class="toggle-desc" data-i18n="settings.logs.scopeNotificationsDesc">Logs de notificacoes</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="logs-scope-notifications">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="form-row" style="margin-top: 16px;">
+                <button class="btn btn-secondary" id="btn-logs-open" data-i18n="settings.logs.openDirectory" type="button">Abrir pasta</button>
+                <button class="btn btn-secondary" id="btn-logs-clear" data-i18n="settings.logs.clearNow" type="button">Limpar logs agora</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-proxy">
+            <h3 class="section-title" data-i18n="settings.proxy.sectionTitle">Configuracao de Proxy</h3>
+            <div class="form-group">
+                <label for="proxy-type" data-i18n="settings.proxy.type">Tipo</label>
+                <select id="proxy-type">
+                    <option value="system" data-i18n="settings.proxy.system">Sistema</option>
+                    <option value="custom" data-i18n="settings.proxy.custom">Personalizado</option>
+                    <option value="none" data-i18n="settings.proxy.none">Sem proxy</option>
+                </select>
+            </div>
+            <div id="proxy-custom-fields">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="proxy-host" data-i18n="settings.proxy.host">Host</label>
+                        <input type="text" id="proxy-host" data-i18n-placeholder="settings.proxy.hostPlaceholder">
+                    </div>
+                    <div class="form-group" style="max-width: 120px;">
+                        <label for="proxy-port" data-i18n="settings.proxy.port">Porta</label>
+                        <input type="text" id="proxy-port" data-i18n-placeholder="settings.proxy.portPlaceholder">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-notifications">
+            <h3 class="section-title" data-i18n="settings.notifications.sectionTitle">Configuracao de Notificacoes</h3>
+            <div class="toggle-group">
+                <div>
+                    <div class="toggle-label" data-i18n="settings.notifications.enabled">Notificacoes ativadas</div>
+                    <div class="toggle-desc" data-i18n="settings.notifications.enabledDesc">Exibir notificacoes</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="notif-enabled">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+                <label for="notif-max-quick" data-i18n="settings.notifications.maxQuickMenu">Quantidade no menu rapido</label>
+                <input type="number" id="notif-max-quick" min="1" max="50" value="10">
+            </div>
+            <div class="form-group">
+                <label for="notif-max-stored" data-i18n="settings.notifications.maxStored">Maximo armazenadas</label>
+                <input type="number" id="notif-max-stored" min="10" max="500" value="50">
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <span class="status-msg" id="status-msg" data-i18n="settings.actions.saved">Salvo</span>
+        <button class="btn btn-secondary" id="btn-cancel" data-i18n="settings.actions.cancel">Cancelar</button>
+        <button class="btn btn-primary" id="btn-save" data-i18n="settings.actions.save">Salvar</button>
+    </div>
+
+    <script>
+        let strings = {};
+
+        function resolveKey(obj, key) {
+            const parts = key.split('.');
+            let value = obj;
+            for (const p of parts) {
+                if (value === null || value === undefined) return undefined;
+                value = value[p];
+            }
+            return value;
+        }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const value = resolveKey(strings, el.dataset.i18n);
+                if (value !== undefined) {
+                    if (el.tagName === 'TITLE') {
+                        document.title = value;
+                    } else {
+                        el.textContent = value;
+                    }
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const value = resolveKey(strings, el.dataset.i18nPlaceholder);
+                if (value !== undefined) el.placeholder = value;
+            });
+        }
+
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(tc => tc.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        const languageSelect = document.getElementById('language-select');
+        const proxyType = document.getElementById('proxy-type');
+        const proxyCustomFields = document.getElementById('proxy-custom-fields');
+        const proxyHost = document.getElementById('proxy-host');
+        const proxyPort = document.getElementById('proxy-port');
+        const notifEnabled = document.getElementById('notif-enabled');
+        const notifMaxQuick = document.getElementById('notif-max-quick');
+        const notifMaxStored = document.getElementById('notif-max-stored');
+        const keepActive = document.getElementById('keep-active');
+        const keepActiveInterval = document.getElementById('keep-active-interval');
+        const logsEnabled = document.getElementById('logs-enabled');
+        const logsLevel = document.getElementById('logs-level');
+        const logsMaxSize = document.getElementById('logs-max-size');
+        const logsMaxFiles = document.getElementById('logs-max-files');
+        const logsScopeGeneral = document.getElementById('logs-scope-general');
+        const logsScopeKeepActive = document.getElementById('logs-scope-keep-active');
+        const logsScopeNotifications = document.getElementById('logs-scope-notifications');
+        const statusMsg = document.getElementById('status-msg');
+
+        function toggleProxyFields() {
+            proxyCustomFields.style.display = proxyType.value === 'custom' ? 'block' : 'none';
+        }
+
+        proxyType.addEventListener('change', toggleProxyFields);
+
+        async function loadI18n() {
+            const i18nData = await window.i18nAPI.get();
+            strings = i18nData.strings || {};
+
+            languageSelect.innerHTML = '';
+            (i18nData.available || []).forEach(loc => {
+                const opt = document.createElement('option');
+                opt.value = loc.code;
+                opt.textContent = loc.name;
+                if (loc.code === i18nData.language) opt.selected = true;
+                languageSelect.appendChild(opt);
+            });
+
+            applyTranslations();
+        }
+
+        async function loadSettings() {
+            const settings = await window.settingsAPI.getSettings();
+            proxyType.value = settings.proxy.type || 'system';
+            proxyHost.value = settings.proxy.host || '';
+            proxyPort.value = settings.proxy.port || '';
+            notifEnabled.checked = settings.notifications.enabled !== false;
+            notifMaxQuick.value = settings.notifications.maxQuickMenu || 10;
+            notifMaxStored.value = settings.notifications.maxStored || 50;
+            keepActive.checked = settings.keepActive === true;
+            keepActiveInterval.value = settings.keepActiveIntervalSeconds || 240;
+            const logs = settings.logs || {};
+            logsEnabled.checked = logs.enabled === true;
+            logsLevel.value = logs.level || 'info';
+            logsMaxSize.value = logs.maxFileSizeMB || 5;
+            logsMaxFiles.value = logs.maxFiles || 5;
+            const scopes = logs.scopes || {};
+            logsScopeGeneral.checked = scopes.general === true;
+            logsScopeKeepActive.checked = scopes.keepActive === true;
+            logsScopeNotifications.checked = scopes.notifications === true;
+            toggleProxyFields();
+        }
+
+        function clampInt(value, min, max, fallback) {
+            const n = parseInt(value);
+            if (Number.isNaN(n)) return fallback;
+            return Math.max(min, Math.min(max, n));
+        }
+
+        document.getElementById('btn-save').addEventListener('click', async () => {
+            const settings = {
+                language: languageSelect.value,
+                keepActive: keepActive.checked,
+                keepActiveIntervalSeconds: clampInt(keepActiveInterval.value, 60, 1800, 240),
+                logs: {
+                    enabled: logsEnabled.checked,
+                    level: logsLevel.value,
+                    maxFileSizeMB: clampInt(logsMaxSize.value, 1, 50, 5),
+                    maxFiles: clampInt(logsMaxFiles.value, 1, 20, 5),
+                    scopes: {
+                        general: logsScopeGeneral.checked,
+                        keepActive: logsScopeKeepActive.checked,
+                        notifications: logsScopeNotifications.checked
+                    }
+                },
+                proxy: {
+                    type: proxyType.value,
+                    host: proxyHost.value.trim(),
+                    port: proxyPort.value.trim()
+                },
+                notifications: {
+                    enabled: notifEnabled.checked,
+                    maxQuickMenu: parseInt(notifMaxQuick.value) || 10,
+                    maxStored: parseInt(notifMaxStored.value) || 50
+                }
+            };
+
+            await window.settingsAPI.saveSettings(settings);
+            window.close();
+        });
+
+        document.getElementById('btn-cancel').addEventListener('click', () => {
+            window.close();
+        });
+
+        const btnLogsOpen = document.getElementById('btn-logs-open');
+        if (btnLogsOpen) {
+            btnLogsOpen.addEventListener('click', async () => {
+                if (window.settingsAPI.openLogsDirectory) {
+                    await window.settingsAPI.openLogsDirectory();
+                }
+            });
+        }
+
+        const btnLogsClear = document.getElementById('btn-logs-clear');
+        if (btnLogsClear) {
+            btnLogsClear.addEventListener('click', async () => {
+                const msg = resolveKey(strings, 'settings.logs.clearConfirm') || 'Clear all log files?';
+                if (!window.confirm(msg)) return;
+                if (window.settingsAPI.clearLogs) {
+                    await window.settingsAPI.clearLogs();
+                }
+            });
+        }
+
+        window.i18nAPI.onChanged((payload) => {
+            strings = payload.strings || {};
+            languageSelect.value = payload.language;
+            applyTranslations();
+        });
+
+        (async () => {
+            await loadI18n();
+            await loadSettings();
+        })();
+    </script>
+</body>
+</html>

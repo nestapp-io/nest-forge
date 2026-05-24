@@ -1,0 +1,47 @@
+{
+  "appId": "google-chat",
+  "productName": "gchat",
+  "directories": {
+    "output": "dist/gchat",
+    "buildResources": "apps/gchat/assets"
+  },
+  "files": [
+    "shared/**/*",
+    "modules/**/*",
+    "src/**/*",
+    "locales/**/*",
+    "apps/gchat/src/main.js",
+    "apps/gchat/assets/**/*",
+    "apps/gchat/config.json",
+    "apps/gchat/package.json",
+    "package.json"
+  ],
+  "win": {
+    "target": "nsis"
+  },
+  "mac": {
+    "target": "dmg"
+  },
+  "linux": {
+    "icon": "apps/gchat/assets/icon.png",
+    "target": [
+      "AppImage",
+      "snap"
+    ],
+    "category": "Utility",
+    "executableName": "gchat"
+  },
+  "snap": {
+    "grade": "stable",
+    "confinement": "strict",
+    "plugs": [
+      "home",
+      "network",
+      "x11",
+      "opengl",
+      "desktop",
+      "desktop-legacy"
+    ],
+    "artifactName": "gchat_${version}_${arch}.snap"
+  }
+}

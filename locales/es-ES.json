@@ -1,0 +1,143 @@
+{
+  "language": {
+    "name": "Espanol"
+  },
+  "menu": {
+    "file": {
+      "title": "Archivo",
+      "reload": "Recargar",
+      "forceReload": "Forzar recarga",
+      "quit": "Salir"
+    },
+    "settings": {
+      "title": "Configuracion",
+      "open": "Abrir configuracion..."
+    },
+    "notifications": {
+      "title": "Notificaciones",
+      "titleWithCount": "Notificaciones ({count})",
+      "empty": "Sin notificaciones",
+      "openAll": "Abrir todas las notificaciones ({count})",
+      "clearRead": "Limpiar leidas",
+      "clearAll": "Limpiar todas",
+      "open": "Abrir",
+      "pin": "Fijar",
+      "unpin": "Desfijar",
+      "delete": "Eliminar",
+      "noBody": "(sin contenido)"
+    },
+    "help": {
+      "title": "Ayuda",
+      "docs": "Documentacion",
+      "report": "Reportar problema",
+      "about": "Acerca de {appName}"
+    }
+  },
+  "settings": {
+    "title": "Configuracion",
+    "tabs": {
+      "general": "General",
+      "performance": "Rendimiento",
+      "logs": "Logs",
+      "proxy": "Proxy",
+      "notifications": "Notificaciones"
+    },
+    "general": {
+      "sectionTitle": "General",
+      "language": "Idioma",
+      "languageHelp": "El cambio se aplica inmediatamente en todos los menus y ventanas."
+    },
+    "proxy": {
+      "sectionTitle": "Configuracion de Proxy",
+      "type": "Tipo",
+      "system": "Sistema",
+      "custom": "Personalizado",
+      "none": "Sin proxy",
+      "host": "Host",
+      "hostPlaceholder": "ej: proxy.empresa.com",
+      "port": "Puerto",
+      "portPlaceholder": "8080"
+    },
+    "notifications": {
+      "sectionTitle": "Configuracion de Notificaciones",
+      "enabled": "Notificaciones activadas",
+      "enabledDesc": "Mostrar notificaciones en el menu y la ventana",
+      "maxQuickMenu": "Cantidad en el menu rapido",
+      "maxStored": "Maximo de notificaciones almacenadas"
+    },
+    "performance": {
+      "sectionTitle": "Rendimiento",
+      "keepActive": "Mantener activo en segundo plano",
+      "keepActiveDesc": "Evita que el sistema suspenda los temporizadores cuando la ventana esta minimizada (aumenta el uso de CPU)",
+      "keepActiveInterval": "Intervalo de actividad (segundos)",
+      "keepActiveIntervalHelp": "Entre 60 y 1800 segundos. Define cada cuanto se dispara una senal sintetica."
+    },
+    "logs": {
+      "sectionTitle": "Logs de la aplicacion",
+      "enabled": "Habilitar logs",
+      "enabledDesc": "Cuando esta desactivado, no se crea ningun archivo de log",
+      "level": "Nivel de log",
+      "levelError": "Error",
+      "levelWarn": "Aviso",
+      "levelInfo": "Info",
+      "levelDebug": "Debug",
+      "maxFileSizeMB": "Tamano maximo por archivo (MB)",
+      "maxFileSizeHelp": "Entre 1 y 50 MB. Al alcanzarlo, el archivo se rota.",
+      "maxFiles": "Maximo de archivos retenidos",
+      "maxFilesHelp": "Entre 1 y 20. Los archivos mas antiguos se eliminan en la rotacion.",
+      "scopesTitle": "Ambitos",
+      "scopeGeneral": "General",
+      "scopeGeneralDesc": "Logs estandar de la aplicacion",
+      "scopeKeepActive": "Mantener activo",
+      "scopeKeepActiveDesc": "Logs de la funcion de mantener activo en segundo plano",
+      "scopeNotifications": "Notificaciones",
+      "scopeNotificationsDesc": "Logs de recepcion y click en notificaciones",
+      "directory": "Carpeta de logs",
+      "openDirectory": "Abrir carpeta",
+      "clearNow": "Limpiar logs ahora",
+      "clearConfirm": "Eliminar todos los archivos de log?"
+    },
+    "actions": {
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "saved": "Guardado"
+    }
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "empty": "Sin notificaciones",
+    "selectAll": "Seleccionar todo",
+    "deselectAll": "Desmarcar",
+    "deleteSelected": "Eliminar seleccionadas",
+    "clearRead": "Limpiar leidas",
+    "clearAll": "Limpiar todas",
+    "unreadCount": "{count} sin leer",
+    "totalCount": "{count} total",
+    "pin": "Fijar",
+    "pinned": "Fijada",
+    "delete": "Eliminar"
+  },
+  "about": {
+    "title": "Acerca de",
+    "version": "version {version}",
+    "packagedBy": "Empaquetado por {nestApp} {version}",
+    "platform": "Plataforma",
+    "author": "Autor",
+    "license": "Licencia",
+    "copyInfo": "Copiar info",
+    "copied": "Copiado!",
+    "close": "Cerrar"
+  },
+  "spellcheck": {
+    "suggestions": "Sugerencias:",
+    "noSuggestions": "Sin sugerencias",
+    "addToDictionary": "Anadir al diccionario",
+    "removeFromDictionary": "Quitar del diccionario"
+  },
+  "tray": {
+    "toggle": "Mostrar/Ocultar",
+    "quit": "Salir",
+    "visible": "Visible",
+    "hidden": "Oculto"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "appId": "com.example.{{APP_NAME}}",
+  "productName": "{{APP_NAME}}",
+  "directories": {
+    "output": "dist",
+    "buildResources": "assets"
+  },
+  "afterPack": "./scripts/afterPack.js",
+  "asarUnpack": [
+    "assets/**/*",
+    "config.json"
+  ],
+  "files": [
+    "shared/**/*",
+    "modules/**/*",
+    "src/**/*",
+    "locales/**/*",
+    "scripts/**/*",
+    "main.js",
+    "assets/**/*",
+    "config.json",
+    "package.json"
+  ],
+  "win": {
+    "target": "nsis"
+  },
+  "mac": {
+    "target": "dmg"
+  },
+  "linux": {
+    "icon": "assets/icon.png",
+    "target": "AppImage",
+    "category": "Utility",
+    "executableName": "{{APP_NAME}}"
+  }
+}

@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="chrome.css">
+</head>
+<body>
+<div id="titlebar">
+    <div class="brand no-drag">
+        <img id="app-icon" class="app-icon" alt="">
+        <span class="brand-text"><span class="brand-nestapp">NestApp</span> <span class="brand-arrow">&rarr;</span> <span id="app-title" class="brand-app"></span></span>
+    </div>
+    <nav id="menubar" class="menubar no-drag" role="menubar"></nav>
+    <button id="menu-burger" class="menu-burger no-drag" hidden aria-label="Menu">&#9776;</button>
+    <div class="drag-spacer"></div>
+    <div id="window-controls" class="no-drag">
+        <button class="wc-btn" data-action="minimize" aria-label="Minimize">&#8211;</button>
+        <button class="wc-btn" data-action="toggle-max" aria-label="Maximize">&#9633;</button>
+        <button class="wc-btn close" data-action="close" aria-label="Close">&times;</button>
+    </div>
+</div>
+<script src="chrome-renderer.js"></script>
+</body>
+</html>

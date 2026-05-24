@@ -1,0 +1,24 @@
+{
+  "name": "NestApp",
+  "version": "3.0.0",
+  "description": "Meu projeto Electron",
+  "main": "apps/gchat/src/main.js",
+  "author": "Mauri Reis. <maurigre@gmail.com>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start:gchat": "cross-env APP_NAME=gchat node scripts/sync-app-entry.js && electron apps/gchat/src/main.js",
+    "build:gchat": "cross-env APP_ID=google-chat APP_NAME=gchat node scripts/build-app.js",
+    "postbuild": "cross-env APP_NAME=gchat node scripts/copy-icons.js",
+    "install:gchat": "cross-env APP_NAME=gchat node installAppImage.js",
+    "build:all": "node scripts/build-all.js"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^37.2.4",
+    "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "extract-zip": "^2.0.1",
+    "winston": "^3.17.0"
+  }
+}
