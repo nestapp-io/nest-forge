@@ -1,7 +1,12 @@
 {
-  "version": "3.0.11",
+  "version": "3.1.0",
   "minElectronVersion": "30.0.0",
   "changelog": [
+    {
+      "version": "3.1.0",
+      "date": "2026-05-25",
+      "notes": "Multi-arch support: flags granulares por target (BUILD_TEMPLATE_SOURCE_{LINUX,WIN,MAC}) permitem rollout gradual; OCI estendido para win-x64; WineAvailabilityChecker valida Wine no startup; TemplateSourceMode ganha DISABLED. Wine no host substitui Docker electronuserland/builder:wine. ADR-0002."
+    },
     {
       "version": "3.0.11",
       "date": "2026-05-24",

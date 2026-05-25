@@ -142,7 +142,8 @@ When touching anything under `modules/`, `shared/`, `src/`, `locales/`, `main.js
 
 A partir do ADR-0001 (workspace `specs/prebuilt-electron-template-distribution/`), o template também é publicado como **OCI artifact em GHCR**:
 
-- Script: `node scripts/publish-template.js [--version=X] [--platform=linux] [--arch=x64] [--dry-run]`
+- Script: `node scripts/publish-template.js [--version=X] [--platforms=linux,win] [--platform=linux] [--arch=x64] [--dry-run]`
+- `--platforms=linux,win` (CSV, ADR-0002) publica multi-arch num único run; manifest único agrega todos. Best-effort: falha em uma plataforma não aborta as outras. `--platform=linux` (singular) ainda funciona para compat.
 - Empacota com `electron-builder --dir` → comprime com `zstd -19` → faz `regclient artifact put` em `ghcr.io/nestapp-io/nestapp-template:<version>-<platform>-<arch>`
 - Publica também manifest separado como `<repo>:<version>-manifest` (media-type `application/vnd.nestapp.template-manifest.v1+json`)
 - Auth via env `GHCR_PAT` (base64 `user:token`)

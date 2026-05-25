@@ -16,23 +16,37 @@ const UNPACKED_DIR_NAMES = {
     mac: 'mac'
 };
 
+const ACCEPTED_PLATFORMS = ['linux', 'win', 'mac'];
+
 function parseArgs(argv) {
     const args = {
         version: null,
-        platform: 'linux',
+        platforms: null,
         arch: 'x64',
         registry: process.env.BUILD_TEMPLATE_REGISTRY || DEFAULT_REGISTRY,
         repository: process.env.BUILD_TEMPLATE_REPOSITORY || DEFAULT_REPOSITORY,
         dryRun: false
     };
+    let singularPlatform = null;
     for (let i = 0; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--dry-run') args.dryRun = true;
         else if (a.startsWith('--version=')) args.version = a.split('=')[1];
-        else if (a.startsWith('--platform=')) args.platform = a.split('=')[1];
+        else if (a.startsWith('--platform=')) singularPlatform = a.split('=')[1];
+        else if (a.startsWith('--platforms=')) {
+            args.platforms = a.split('=')[1].split(',').map(p => p.trim()).filter(Boolean);
+        }
         else if (a.startsWith('--arch=')) args.arch = a.split('=')[1];
         else if (a.startsWith('--registry=')) args.registry = a.split('=')[1];
         else if (a.startsWith('--repository=')) args.repository = a.split('=')[1];
+    }
+    if (!args.platforms) {
+        args.platforms = [singularPlatform || 'linux'];
+    }
+    for (const p of args.platforms) {
+        if (!ACCEPTED_PLATFORMS.includes(p)) {
+            throw new Error(`platform invalida: '${p}' (aceitas: ${ACCEPTED_PLATFORMS.join(', ')})`);
+        }
     }
     return args;
 }
@@ -175,41 +189,66 @@ async function main() {
     const tplInfo = readTemplateVersion();
     const version = args.version || tplInfo.version;
 
-    console.log(`publish-template: version=${version}, platform=${args.platform}, arch=${args.arch}, dryRun=${args.dryRun}`);
+    console.log(`publish-template: version=${version}, platforms=[${args.platforms.join(',')}], arch=${args.arch}, dryRun=${args.dryRun}`);
 
     ensureCleanDist();
-    const unpackedDir = runElectronBuilderDir(args.platform, args.arch);
-    const archivePath = createTarZstArchive(unpackedDir, version, args.platform, args.arch);
-    const sha256 = sha256OfFile(archivePath);
-    const sizeBytes = fs.statSync(archivePath).size;
-
-    const platformKey = `${args.platform}-${args.arch}`;
-    const ociRef = buildOciReference(args, version, platformKey);
-    const ociRefManifest = buildOciReference(args, version, 'manifest');
-
-    const manifest = {
-        version,
-        minimumElectronVersion: tplInfo.minimumElectronVersion,
-        publishedAt: new Date().toISOString(),
-        platforms: {
-            [platformKey]: { ociReference: ociRef, sha256, sizeBytes }
-        }
-    };
-    const manifestPath = writeManifest(manifest, version);
 
     const auth = process.env.GHCR_PAT
         ? Buffer.from(`maurigre:${process.env.GHCR_PAT}`).toString('base64')
         : '';
 
-    publishArtifact(archivePath, ociRef, MEDIA_TYPE, args.dryRun, auth);
-    publishArtifact(manifestPath, ociRefManifest, MANIFEST_MEDIA_TYPE, args.dryRun, auth);
+    const manifest = {
+        version,
+        minimumElectronVersion: tplInfo.minimumElectronVersion,
+        publishedAt: new Date().toISOString(),
+        platforms: {}
+    };
+    const results = [];
+    const failures = [];
+
+    for (const platform of args.platforms) {
+        const platformKey = `${platform}-${args.arch}`;
+        const platformArgs = { ...args, platform };
+        try {
+            const unpackedDir = runElectronBuilderDir(platform, args.arch);
+            const archivePath = createTarZstArchive(unpackedDir, version, platform, args.arch);
+            const sha256 = sha256OfFile(archivePath);
+            const sizeBytes = fs.statSync(archivePath).size;
+            const ociRef = buildOciReference(platformArgs, version, platformKey);
+
+            publishArtifact(archivePath, ociRef, MEDIA_TYPE, args.dryRun, auth);
+
+            manifest.platforms[platformKey] = { ociReference: ociRef, sha256, sizeBytes };
+            results.push({ platform: platformKey, archivePath, sha256, sizeBytes, ociRef });
+            console.log(`  ok: ${platformKey} -> ${ociRef}`);
+        } catch (err) {
+            console.error(`  FAIL: ${platformKey} -> ${err.message}`);
+            failures.push({ platform: platformKey, error: err.message });
+        }
+    }
+
+    const ociRefManifest = buildOciReference(args, version, 'manifest');
+    if (Object.keys(manifest.platforms).length > 0) {
+        const manifestPath = writeManifest(manifest, version);
+        publishArtifact(manifestPath, ociRefManifest, MANIFEST_MEDIA_TYPE, args.dryRun, auth);
+    } else {
+        console.error('Nenhuma platform publicada com sucesso; manifest nao foi publicado.');
+    }
 
     console.log('---');
-    console.log(`Archive:  ${archivePath} (${(sizeBytes / 1024 / 1024).toFixed(1)} MB)`);
-    console.log(`SHA-256:  ${sha256}`);
-    console.log(`OCI ref:  ${ociRef}`);
-    console.log(`Manifest: ${ociRefManifest}`);
-    console.log('Done.');
+    for (const r of results) {
+        console.log(`Archive:  ${r.archivePath} (${(r.sizeBytes / 1024 / 1024).toFixed(1)} MB)`);
+        console.log(`SHA-256:  ${r.sha256}`);
+        console.log(`OCI ref:  ${r.ociRef}`);
+    }
+    if (Object.keys(manifest.platforms).length > 0) {
+        console.log(`Manifest: ${ociRefManifest}`);
+    }
+    console.log(`Done: ${results.length} ok, ${failures.length} failed.`);
+
+    if (failures.length > 0) {
+        process.exitCode = 1;
+    }
 }
 
 if (require.main === module) {
