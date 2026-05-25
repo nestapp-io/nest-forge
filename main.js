@@ -43,8 +43,11 @@ const {
 } = require('#default-modules-path/modules');
 
 process.on('uncaughtException', (error) => {
-    logger.error('Uncaught Exception: {}', error.message);
-    app.quit();
+    // Why: handlers de navegacao envolvem o proprio corpo em try/catch; exceptions
+    // genuinamente fatais ja crasham o processo via Chromium. Encerrar aqui matava
+    // o app em falhas recuperaveis (ex: shell.openExternal rejection).
+    const stack = error && error.stack ? error.stack : '(no stack)';
+    logger.error('Uncaught Exception: {} | stack: {}', error.message || String(error), stack);
 });
 
 process.on('unhandledRejection', (reason) => {
@@ -177,6 +180,16 @@ function isLikelyDownload(parsedUrl) {
     return DOWNLOAD_EXTENSIONS.test(parsedUrl.pathname);
 }
 
+async function openExternalSafe(url, context) {
+    if (typeof url !== 'string' || url.length === 0) return;
+    try {
+        await shell.openExternal(url);
+    } catch (err) {
+        const msg = err && err.message ? err.message : String(err);
+        logger.error('Falha ao abrir URL externa (contexto={}, url={}): {}', context, url, msg);
+    }
+}
+
 app.on('web-contents-created', (_, contents) => {
     const appConfig = globalStore.get('appConfig');
     const appUrl = new URL(appConfig.url);
@@ -187,7 +200,7 @@ app.on('web-contents-created', (_, contents) => {
 
             if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
                 if (parsedUrl.protocol === 'mailto:' || parsedUrl.protocol === 'tel:') {
-                    shell.openExternal(url);
+                    openExternalSafe(url, 'popup-protocol');
                 }
                 return { action: 'deny' };
             }
@@ -208,11 +221,17 @@ app.on('web-contents-created', (_, contents) => {
                     });
                     return { action: 'deny' };
                 }
+                const session = globalStore.get('session');
+                if (!session) {
+                    logger.error('Sessao indisponivel para popup; abrindo externamente: {}', url);
+                    openExternalSafe(url, 'popup-no-session');
+                    return { action: 'deny' };
+                }
                 return {
                     action: 'allow',
                     overrideBrowserWindowOptions: {
                         webPreferences: {
-                            session: globalStore.get('session'),
+                            session,
                             preload: path.join(__dirname, '#default-modules-path', 'shared/preload.js'),
                             sandbox: true,
                             contextIsolation: true
@@ -221,9 +240,10 @@ app.on('web-contents-created', (_, contents) => {
                 };
             }
 
-            shell.openExternal(url);
+            openExternalSafe(url, 'popup-external');
         } catch (e) {
-            // URL invalida
+            const msg = e && e.message ? e.message : String(e);
+            logger.error('Excecao em setWindowOpenHandler (url={}): {}', url, msg);
         }
         return { action: 'deny' };
     });
@@ -242,9 +262,29 @@ app.on('web-contents-created', (_, contents) => {
             if (isInternalNavigation(parsedUrl, appUrl)) return;
 
             event.preventDefault();
-            shell.openExternal(url);
+            openExternalSafe(url, 'will-navigate-external');
         } catch (e) {
-            // URL invalida
+            const msg = e && e.message ? e.message : String(e);
+            logger.error('Excecao em will-navigate (url={}): {}', url, msg);
+        }
+    });
+
+    contents.on('render-process-gone', (_event, details) => {
+        const reason = details && details.reason ? details.reason : 'unknown';
+        const exitCode = details && details.exitCode !== undefined ? details.exitCode : -1;
+        logger.error('Renderer crash: reason={}, exitCode={}', reason, exitCode);
+        const RECOVERABLE = ['crashed', 'oom'];
+        const KEY = 'lastRendererRecoveryAt';
+        const now = Date.now();
+        const lastAt = globalStore.get(KEY) || 0;
+        if (RECOVERABLE.includes(reason) && (now - lastAt) > 60_000) {
+            globalStore.set(KEY, now);
+            try {
+                contents.reload();
+            } catch (e) {
+                const msg = e && e.message ? e.message : String(e);
+                logger.error('Falha ao recarregar renderer apos crash: {}', msg);
+            }
         }
     });
 });

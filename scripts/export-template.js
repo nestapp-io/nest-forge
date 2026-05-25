@@ -3,7 +3,7 @@ const path = require('path');
 
 const FORGE_ROOT = path.join(__dirname, '..');
 const OVERLAY_DIR = path.join(FORGE_ROOT, 'templates', 'api-overlay');
-const DEFAULT_OUT = path.join(FORGE_ROOT, '..', 'api', 'templates', 'electron-base');
+const DEFAULT_OUT = path.join(FORGE_ROOT, '..', 'nest-build-app-api', 'templates', 'electron-base');
 
 const COPY_ROOTS = ['modules', 'shared', 'src', 'locales'];
 const COPY_FILES = ['main.js'];

@@ -1,7 +1,12 @@
 {
-  "version": "3.0.10",
+  "version": "3.0.11",
   "minElectronVersion": "30.0.0",
   "changelog": [
+    {
+      "version": "3.0.11",
+      "date": "2026-05-24",
+      "notes": "Hardening dos handlers de navegacao e ciclo de vida: uncaughtException nao mais derruba o app (apenas logger.error); setWindowOpenHandler/will-navigate envoltos em try/catch externo com fallback seguro; helper openExternalSafe centraliza shell.openExternal com captura de rejection; invariante de session em popups; listener render-process-gone com recovery throttled (1 reload/60s) para reason crashed/oom. Resolve bug observado de apps (Slack, Chat) morrerem silenciosamente ao clicar links externos."
+    },
     {
       "version": "1.0.0",
       "date": "2026-04-11",
