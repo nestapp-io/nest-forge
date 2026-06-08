@@ -25,8 +25,8 @@
 | **PATH_REWRITES** | Mapeamento em `export-template.js` que converte multi-app → single-app layout. | scripts/export-template.js |
 | **`safeReplaceFile`** | Função em `installAppImage.js` que faz `unlink + copy` para evitar `ETXTBSY` durante reinstall com app rodando. | installAppImage.js |
 | **WM_CLASS** | Window class no X11. Setado via `--class={appName}` no `.desktop` Exec. Garante apps NestApp não colidam. | installAppImage.js |
-| **`extraMetadata.version`** | Versão do app (de `apps/{appName}/package.json`), injetada no AppImage. | build-app.js |
-| **`extraMetadata.nestApp.{name,version}`** | Metadado do packager (do root `package.json`), preservado no build para a About window. | build-app.js, app-info.js |
+| **`extraMetadata.version`** | Versão do app injetada no empacotado. Multi-app: de `apps/{appName}/package.json` (build-app.js). **OCI/publish: de `template.json.version` (publish-template.js)** — app publicado reporta a versão do template (= tag OCI/ctv). | build-app.js, publish-template.js |
+| **`extraMetadata.nestApp.{name,version}`** | Metadado do packager para a About ("Empacotado por…"). Multi-app: do root `package.json`. **OCI/publish: `{name:'nestapp-template', version: template.json.version}`**. | build-app.js, publish-template.js, app-info.js |
 | **notification interceptor** | Script injetado em `dom-ready`/`did-finish-load`/`did-navigate-in-page` que patch `window.Notification`. | window-manager.js |
 | **download notification** | Notification nativa após `session.will-download`. NÃO grava em notificationStore (v3.0.1+). | session/will-download |
 
