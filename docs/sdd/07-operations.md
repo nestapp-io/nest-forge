@@ -39,6 +39,10 @@ Aplicadas via `cross-env` nos scripts npm.
      - seções `linux` / `snap`
      - `extraMetadata = { version: <app version>, nestApp: { name, version } from root }`
      - **nunca `extraMetadata.name`** (caveat documentado)
+     - **No fluxo OCI (`publish-template.js`):** `extraMetadata.version` e
+       `extraMetadata.nestApp` vêm de `template.json.version` (não do
+       `package.json` de framework) — o app publicado reporta a versão do
+       template/tag OCI. Ver `specs/nestforge-template-version-sync/`.
    - `syncAppEntry(appName)` materializa `apps/{appName}/src/main.js`
      a partir de `main.js` raiz.
    - `electron-builder --config .electron-builder-config.generated.json`.

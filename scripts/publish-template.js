@@ -88,12 +88,17 @@ function prepareOciMainJs() {
     return 'main.oci.js';
 }
 
-function writePublishConfig(ociMainRelative) {
+function writePublishConfig(ociMainRelative, version) {
     const configPath = path.join(FORGE_ROOT, '.electron-builder-publish.json');
     const cfg = {
         appId: 'io.nestapp.template',
         productName: 'NestApp',
-        extraMetadata: { main: ociMainRelative, name: 'nestapp-template' },
+        extraMetadata: {
+            main: ociMainRelative,
+            name: 'nestapp-template',
+            version,
+            nestApp: { name: 'nestapp-template', version }
+        },
         files: [
             'main.oci.js', 'modules/**/*', 'shared/**/*', 'src/**/*',
             'locales/**/*', 'package.json',
@@ -111,9 +116,9 @@ function writePublishConfig(ociMainRelative) {
     return configPath;
 }
 
-function runElectronBuilderDir(platform, arch) {
+function runElectronBuilderDir(platform, arch, version) {
     const ociMainRelative = prepareOciMainJs();
-    const configPath = writePublishConfig(ociMainRelative);
+    const configPath = writePublishConfig(ociMainRelative, version);
     const flagPlatform = platform === 'win' ? '--win' : platform === 'mac' ? '--mac' : '--linux';
     const flagArch = arch === 'arm64' ? '--arm64' : '--x64';
     console.log(`Running electron-builder --dir ${flagPlatform} ${flagArch} --config ${configPath}...`);
@@ -210,7 +215,7 @@ async function main() {
         const platformKey = `${platform}-${args.arch}`;
         const platformArgs = { ...args, platform };
         try {
-            const unpackedDir = runElectronBuilderDir(platform, args.arch);
+            const unpackedDir = runElectronBuilderDir(platform, args.arch, version);
             const archivePath = createTarZstArchive(unpackedDir, version, platform, args.arch);
             const sha256 = sha256OfFile(archivePath);
             const sizeBytes = fs.statSync(archivePath).size;
