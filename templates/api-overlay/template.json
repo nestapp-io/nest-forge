@@ -1,7 +1,12 @@
 {
-  "version": "3.1.0",
+  "version": "3.1.1",
   "minElectronVersion": "30.0.0",
   "changelog": [
+    {
+      "version": "3.1.1",
+      "date": "2026-06-08",
+      "notes": "Correcao de proveniencia de versao: publish-template.js injeta extraMetadata.version + nestApp = template.json.version, para o app reportar a versao do template (tela Sobre / app.getVersion) consistente com a tag OCI/ctv. Antes a versao interna caia no nest-forge/package.json (framework, 3.0.0). Ver specs/nestforge-template-version-sync."
+    },
     {
       "version": "3.1.0",
       "date": "2026-05-25",
